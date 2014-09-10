@@ -1,0 +1,66 @@
+#!/bin/bash
+
+VERSION="0.0.0"
+
+#Set Script Name variable
+SCRIPT=`basename ${BASH_SOURCE[0]}`
+
+#Set fonts for Help.
+NORM=`tput sgr0`
+BOLD=`tput bold`
+REV=`tput smso`
+
+
+OPTS=`getopt -o Vh --long version,help -n 'parse-options' -- "$@"`
+
+eval set -- "$OPTS"
+
+PRINT_HELP=false
+PRINT_VERSION=false
+
+function print_version() {
+  echo -e "$SCRIPT $VERSION"\\n
+  exit 0
+}
+
+function usage()
+{
+cat << EOF
+Help documentation for ${BOLD}${SCRIPT}.${NORM}
+${REV}Basic usage:${NORM} ${BOLD}$SCRIPT [OPTIONS]${NORM}
+
+${BOLD}OPTIONS:${NORM}
+  ${BOLD}-h, --help${NORM}
+    Print a usage message briefly summarizing these command-line options and exit.
+  ${BOLD}-V, --version${NORM}
+    Print the version number of ${SCRIPT} to the standard output stream.
+EOF
+exit 1
+}
+
+
+#Check the number of arguments. If none are passed, print help and exit.
+NUMARGS=$#
+if [ $NUMARGS -eq 0 ]; then
+  usage
+fi
+
+
+### Start getopts code ###
+while [ $# -gt 0 ]; do
+  case $1 in
+    -h | --help)
+      usage
+      ;;
+    -V | --version)
+      print_version
+      ;;
+    \?) #unrecognized option - show help
+      echo -e \\n"Option -${BOLD}$OPTARG${NORM} not recognized."
+      echo -e "Use ${BOLD}$SCRIPT -h${NORM} to see the help documentation."\\n
+      exit 2
+      ;; 
+  esac
+  shift
+done
+### End getopts code ###
