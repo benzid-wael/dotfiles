@@ -5,10 +5,19 @@
 "" Automatic reloading of .vimrc
 autocmd! bufwritepost .vimrc source %
 
+" Mode compatible should be turned off, to have fugitive plugin available
+set nocompatible
+
 " Allow per-directory vimrc
 set exrc
 set secure
 
+" Pathogen load
+filetype off
+call pathogen#infect()
+call pathogen#helptags()
+
+filetype plugin indent on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
