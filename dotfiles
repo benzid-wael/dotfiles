@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 VERSION="0.0.0"
 
 #Set Script Name variable
@@ -11,12 +12,15 @@ BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vh --long version,help -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
 PRINT_HELP=false
 PRINT_VERSION=false
+NO_GIT=false
+GIT_NAME=''
+GIT_EMAIL=''
 
 function print_version() {
   echo -e "$SCRIPT $VERSION"\\n
@@ -34,6 +38,13 @@ ${BOLD}OPTIONS:${NORM}
     Print a usage message briefly summarizing these command-line options and exit.
   ${BOLD}-V, --version${NORM}
     Print the version number of ${SCRIPT} to the standard output stream.
+
+  ${BOLD}--no-git${NORM}
+    Exclude git configuration.
+  ${BOLD}--git-name${NORM}
+    Define ${REV}user.name${NORM} for git configuration.
+  ${BOLD}--git-email${NORM}
+    Define ${REV}user.email${NORM} for git configuration.
 EOF
 exit 1
 }
@@ -55,6 +66,9 @@ while [ $# -gt 0 ]; do
     -V | --version)
       print_version
       ;;
+    --no-git) NO_GIT=true ;;
+    --git-name) GIT_NAME=$2; shift; ;;
+    --git-email) GIT_EMAIL=$2; shift; ;;
     \?) #unrecognized option - show help
       echo -e \\n"Option -${BOLD}$OPTARG${NORM} not recognized."
       echo -e "Use ${BOLD}$SCRIPT -h${NORM} to see the help documentation."\\n
@@ -93,3 +107,23 @@ function copy_file() {
   cp `pwd`/$1 $HOME/$2
 }
 ### End utilities functions ###
+
+function configure_git() {
+  echo "Configuring git..."
+  if [ -z "$GIT_NAME" ]; then
+    read -p "Git user.name: " GIT_NAME
+  fi
+  if [ -z "$GIT_EMAIL" ]; then
+    read -p "Git user.email: " GIT_EMAIL
+  fi
+  backup_file .gitconfig
+  sed -e 's/\[\[GIT_NAME\]\]/'"$GIT_NAME"'/g' -e 's/\[\[GIT_EMAIL\]\]/'"$GIT_EMAIL"'/g' `pwd`/gitconfig > $HOME/.gitconfig
+  copy_file gitignore-global .gitignore
+}
+
+
+### Start main program ###
+if [ "$NO_GIT" == false ]; then
+  configure_git
+fi
+### End main program ###

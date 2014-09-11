@@ -1,7 +1,7 @@
 [user]
-	username = Wael BEN ZID
-	email = benzid.wael@hotmail.fr
-	name = Wael BEN ZID
+	username = [[GIT_NAME]]
+	email = [[GIT_EMAIL]]
+	name = [[GIT_NAME]]
 [alias]
 	co = checkout
 	ci = commit
