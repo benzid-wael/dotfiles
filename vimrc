@@ -9,13 +9,6 @@ autocmd! bufwritepost .vimrc source %
 set exrc
 set secure
 
-" Automatically expand tabs into spaces
-set expandtab
-
-" Tabs are four spaces
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -145,6 +138,7 @@ set smarttab
 
 " 1 tab == 4 spaces
 set shiftwidth=4
+set softtabstop=4
 set tabstop=4
 
 " Linebreak on 500 characters
