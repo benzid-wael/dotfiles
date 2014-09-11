@@ -13,6 +13,9 @@ Session.vim
 .netrwhist
 *~
 
+# Backup files
+*.backup
+
 # Distribution / packaging
 build/
 dist/
