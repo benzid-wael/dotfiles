@@ -12,7 +12,7 @@ BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email,no-vim -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email,no-vim,no-virtualenv -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
@@ -22,6 +22,7 @@ NO_GIT=false
 GIT_NAME=''
 GIT_EMAIL=''
 NO_VIM=false
+NO_VIRTUALENV=false
 
 function print_version() {
   echo -e "$SCRIPT $VERSION"\\n
@@ -49,6 +50,10 @@ ${BOLD}OPTIONS:${NORM}
 
   ${BOLD}--no-vim${NORM}
     Do not configure vim.
+
+   ${BOLD}--no-virtualenv${NORM}
+    Do not install virtualenv.
+ 
 EOF
 exit 1
 }
@@ -74,6 +79,7 @@ while [ $# -gt 0 ]; do
     --no-vim) NO_VIM=true ;;
     --git-name) GIT_NAME=$2; shift; ;;
     --git-email) GIT_EMAIL=$2; shift; ;;
+    --no-virtualenv) NO_VIRTUALENV=true ;;
     \?) #unrecognized option - show help
       echo -e \\n"Option -${BOLD}$OPTARG${NORM} not recognized."
       echo -e "Use ${BOLD}$SCRIPT -h${NORM} to see the help documentation."\\n
@@ -138,8 +144,21 @@ function configure_vim() {
   copy_file vimrc ~/.vimrc
 }
 
+function install_virtualenv() {
+  echo "Installing virtualenv..."
+  ./install_virtualenv.sh
+}
+
 ### Start main program ###
 if [ "$NO_GIT" == false ]; then
   configure_git
+fi
+
+if [ "$NO_VIM" == false ]; then
+  configure_vim
+fi
+
+if [ "$NO_VIRTUALENV" == false ]; then
+  install_virtualenv
 fi
 ### End main program ###
