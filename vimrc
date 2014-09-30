@@ -170,7 +170,7 @@ highlight ColorColumn ctermbg=233
 autocmd Filetype html,htmldjango,handlebars setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript,coffee setlocal ts=2 sts=2 sw=2
 autocmd Filetype css,less,sass,scss,stylus setlocal ts=2 sts=2 sw=2
-autocmd Filetype python setlocal textwidth=78
+autocmd Filetype python setlocal textwidth=79
 
 
 " Add the virtualenv's site-packages to vim path

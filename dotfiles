@@ -12,7 +12,7 @@ BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email,no-vim -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
@@ -21,6 +21,7 @@ PRINT_VERSION=false
 NO_GIT=false
 GIT_NAME=''
 GIT_EMAIL=''
+NO_VIM=false
 
 function print_version() {
   echo -e "$SCRIPT $VERSION"\\n
@@ -45,6 +46,9 @@ ${BOLD}OPTIONS:${NORM}
     Define ${REV}user.name${NORM} for git configuration.
   ${BOLD}--git-email${NORM}
     Define ${REV}user.email${NORM} for git configuration.
+
+  ${BOLD}--no-vim${NORM}
+    Do not configure vim.
 EOF
 exit 1
 }
@@ -67,6 +71,7 @@ while [ $# -gt 0 ]; do
       print_version
       ;;
     --no-git) NO_GIT=true ;;
+    --no-vim) NO_VIM=true ;;
     --git-name) GIT_NAME=$2; shift; ;;
     --git-email) GIT_EMAIL=$2; shift; ;;
     \?) #unrecognized option - show help
@@ -121,6 +126,17 @@ function configure_git() {
   copy_file gitignore-global .gitignore
 }
 
+
+function configure_vim() {
+  echo "Installing Vim with mode python enabled..."
+  ./vim/install_vim.sh
+  ./vim/install_pathogen.sh
+  ./vim/install_fugitive.sh
+  ./vim/install_pep8_pyflakes.sh
+  ./vim/install_jedi.sh
+  ./vim/install_tasklist.sh
+  copy_file vimrc ~/.vimrc
+}
 
 ### Start main program ###
 if [ "$NO_GIT" == false ]; then
