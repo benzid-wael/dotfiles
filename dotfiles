@@ -61,7 +61,7 @@ ${BOLD}OPTIONS:${NORM}
     Do not install virtualenv.
 
   ${BOLD}--no-node${NORM}
-    Do not install ${REV}Node.js{NORM}.
+    Do not install ${REV}Node.js${NORM}.
  
 EOF
 exit 1
