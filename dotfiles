@@ -12,7 +12,7 @@ BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email,no-vim,no-virtualenv -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email,no-vim,no-virtualenv,no-node -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
@@ -23,6 +23,7 @@ GIT_NAME=''
 GIT_EMAIL=''
 NO_VIM=false
 NO_VIRTUALENV=false
+NO_NODE=false
 
 function print_version() {
   echo -e "$SCRIPT $VERSION"\\n
@@ -51,8 +52,11 @@ ${BOLD}OPTIONS:${NORM}
   ${BOLD}--no-vim${NORM}
     Do not configure vim.
 
-   ${BOLD}--no-virtualenv${NORM}
+  ${BOLD}--no-virtualenv${NORM}
     Do not install virtualenv.
+
+  ${BOLD}--no-node${NORM}
+    Do not install Node.js.
  
 EOF
 exit 1
@@ -80,6 +84,7 @@ while [ $# -gt 0 ]; do
     --git-name) GIT_NAME=$2; shift; ;;
     --git-email) GIT_EMAIL=$2; shift; ;;
     --no-virtualenv) NO_VIRTUALENV=true ;;
+    --no-node) NO_NODE=true ;;
     \?) #unrecognized option - show help
       echo -e \\n"Option -${BOLD}$OPTARG${NORM} not recognized."
       echo -e "Use ${BOLD}$SCRIPT -h${NORM} to see the help documentation."\\n
@@ -149,6 +154,11 @@ function install_virtualenv() {
   ./install_virtualenv.sh
 }
 
+function install_node() {
+  echo "Installing Node.js with NVM..."
+  ./install_node.sh
+}
+
 ### Start main program ###
 if [ "$NO_GIT" == false ]; then
   configure_git
@@ -160,5 +170,9 @@ fi
 
 if [ "$NO_VIRTUALENV" == false ]; then
   install_virtualenv
+fi
+
+if [ "$NO_NODE" == false ]; then
+  install_node
 fi
 ### End main program ###
