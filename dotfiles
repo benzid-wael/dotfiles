@@ -6,18 +6,21 @@ VERSION="0.0.0"
 #Set Script Name variable
 SCRIPT=`basename ${BASH_SOURCE[0]}`
 
+NODE_VERSION=0.10.33
+
 #Set fonts for Help.
 NORM=`tput sgr0`
 BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vh --long version,help,no-git,git-name,git-email,no-vim,no-virtualenv,no-node -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vhg --long version,help,global,no-git,git-name,git-email,no-vim,no-virtualenv,no-node -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
 PRINT_HELP=false
 PRINT_VERSION=false
+GLOBAL=false
 NO_GIT=false
 GIT_NAME=''
 GIT_EMAIL=''
@@ -41,6 +44,8 @@ ${BOLD}OPTIONS:${NORM}
     Print a usage message briefly summarizing these command-line options and exit.
   ${BOLD}-V, --version${NORM}
     Print the version number of ${SCRIPT} to the standard output stream.
+  ${BOLD}-g, --global${NORM}
+    Run some action in a global context, e.g: install node ${NODE_VERSION} globally.
 
   ${BOLD}--no-git${NORM}
     Exclude git configuration.
@@ -56,7 +61,7 @@ ${BOLD}OPTIONS:${NORM}
     Do not install virtualenv.
 
   ${BOLD}--no-node${NORM}
-    Do not install Node.js.
+    Do not install ${REV}Node.js{NORM}.
  
 EOF
 exit 1
@@ -78,6 +83,9 @@ while [ $# -gt 0 ]; do
       ;;
     -V | --version)
       print_version
+      ;;
+    -g | --global)
+      GLOBAL=true
       ;;
     --no-git) NO_GIT=true ;;
     --no-vim) NO_VIM=true ;;
@@ -156,7 +164,7 @@ function install_virtualenv() {
 
 function install_node() {
   echo "Installing Node.js with NVM..."
-  ./install_node.sh
+  ./install_node.sh --node-version $NODE_VERSION -g $GLOBAL
 }
 
 ### Start main program ###
