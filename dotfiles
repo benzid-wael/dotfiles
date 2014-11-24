@@ -128,7 +128,7 @@ function link_directory() {
 
 function copy_file() {
   backup_file $2
-  cp `pwd`/$1 $HOME/$2
+  cp $1 $2
 }
 ### End utilities functions ###
 
@@ -142,7 +142,7 @@ function configure_git() {
   fi
   backup_file .gitconfig
   sed -e 's/\[\[GIT_NAME\]\]/'"$GIT_NAME"'/g' -e 's/\[\[GIT_EMAIL\]\]/'"$GIT_EMAIL"'/g' `pwd`/gitconfig > $HOME/.gitconfig
-  copy_file gitignore-global .gitignore
+  copy_file gitignore-global ~/.gitignore
 }
 
 
