@@ -62,7 +62,7 @@ ${BOLD}OPTIONS:${NORM}
 
   ${BOLD}--no-node${NORM}
     Do not install ${REV}Node.js${NORM}.
- 
+
 EOF
 exit 1
 }
