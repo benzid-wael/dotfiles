@@ -55,7 +55,7 @@ ${BOLD}OPTIONS:${NORM}
     Define ${REV}user.email${NORM} for git configuration.
 
   ${BOLD}--no-vim${NORM}
-    Do not configure vim.
+    Do not configure NeoVim.
 
   ${BOLD}--no-virtualenv${NORM}
     Do not install virtualenv.
@@ -157,6 +157,12 @@ function configure_vim() {
   copy_file vimrc ~/.vimrc
 }
 
+function configure_neovim() {
+  echo "Installing NeoVim ..."
+  ./install_nvim.sh
+  copy_file nvimrc  ~/.nvimrc
+}
+
 function install_virtualenv() {
   echo "Installing virtualenv..."
   ./install_virtualenv.sh
@@ -185,7 +191,7 @@ if [ "$NO_GIT" == false ]; then
 fi
 
 if [ "$NO_VIM" == false ]; then
-  configure_vim
+  configure_neovim
 fi
 
 if [ "$NO_VIRTUALENV" == false ]; then
