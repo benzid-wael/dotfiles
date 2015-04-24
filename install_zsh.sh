@@ -12,5 +12,3 @@ plugins=(git autopep8 bower colorize cp django docker history jira mercurial nvm
     o node fabric screen)
 
 EOF
-
-sudo shutdown -r 0
