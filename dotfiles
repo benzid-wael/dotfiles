@@ -167,6 +167,13 @@ function install_node() {
   ./install_node.sh --node-version $NODE_VERSION -g $GLOBAL
 }
 
+function install_zsh() {
+  echo "Installing 'Oh MyZSH!' ..."
+  ./install_zsh.sh
+  echo "Time for reboot :)"
+  sudo shutdown -r 0
+}
+
 ### Start main program ###
 if [ "$NO_GIT" == false ]; then
   configure_git
@@ -183,4 +190,8 @@ fi
 if [ "$NO_NODE" == false ]; then
   install_node
 fi
+
+
+# Finally, let's install ZSH
+install_zsh
 ### End main program ###
