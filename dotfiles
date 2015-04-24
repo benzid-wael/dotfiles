@@ -167,6 +167,18 @@ function install_node() {
   ./install_node.sh --node-version $NODE_VERSION -g $GLOBAL
 }
 
+function install_zsh() {
+  echo "Installing 'Oh MyZSH!' ..."
+  ./install_zsh.sh
+  echo "Time for reboot :)"
+  sudo shutdown -r 0
+}
+
+if ! which zsh; then
+  printf '%s\n\n' 'dotfiles: zsh not found!' >&2
+  install_zsh
+fi
+
 ### Start main program ###
 if [ "$NO_GIT" == false ]; then
   configure_git
