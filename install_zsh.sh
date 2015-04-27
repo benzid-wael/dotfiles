@@ -2,6 +2,9 @@
 
 sudo apt-get install zsh git-core
 
+# Force installation of wget
+sudo apt-get install wget
+
 wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
 
 chsh -s `which zsh`
