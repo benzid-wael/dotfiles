@@ -14,7 +14,7 @@ BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vhg --long version,help,global,no-git,git-name,git-email,no-vim,no-virtualenv,no-node -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vhg --long version,help,global,no-git,git-name,git-email,no-vim,no-virtualenv,no-node,no-pythonz -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
@@ -27,6 +27,7 @@ GIT_EMAIL=''
 NO_VIM=false
 NO_VIRTUALENV=false
 NO_NODE=false
+NO_PYTHONZ=false
 
 function print_version() {
   echo -e "$SCRIPT $VERSION"\\n
@@ -59,6 +60,9 @@ ${BOLD}OPTIONS:${NORM}
 
   ${BOLD}--no-virtualenv${NORM}
     Do not install virtualenv.
+
+  ${BOLD}--no-pythonz${NORM}
+    Do not install pythonz.
 
   ${BOLD}--no-node${NORM}
     Do not install ${REV}Node.js${NORM}.
@@ -93,6 +97,7 @@ while [ $# -gt 0 ]; do
     --git-email) GIT_EMAIL=$2; shift; ;;
     --no-virtualenv) NO_VIRTUALENV=true ;;
     --no-node) NO_NODE=true ;;
+    --no-pythonz) NO_PYTHONZ=true ;;
     \?) #unrecognized option - show help
       echo -e \\n"Option -${BOLD}$OPTARG${NORM} not recognized."
       echo -e "Use ${BOLD}$SCRIPT -h${NORM} to see the help documentation."\\n
@@ -169,15 +174,20 @@ function install_virtualenv() {
 }
 
 function install_node() {
-  echo "Installing Node.js with NVM..."
+  echo "Installing Node.js with nvm..."
   ./install_node.sh --node-version $NODE_VERSION -g $GLOBAL
 }
 
 function install_zsh() {
-  echo "Installing 'Oh MyZSH!' ..."
+  echo "Installing 'Oh MyZSH!'..."
   ./install_zsh.sh
-  echo "Time for reboot :)"
-  sudo shutdown -r 0
+  # echo "Time for reboot :)"
+  # sudo shutdown -r 0
+}
+
+function install_pythonz() {
+  echo "Installing pythonz..."
+  ./install_pythonz.sh
 }
 
 if ! which zsh; then
@@ -200,5 +210,9 @@ fi
 
 if [ "$NO_NODE" == false ]; then
   install_node
+fi
+
+if [ "$NO_PYTHONZ" == false ]; then
+  install_pythonz
 fi
 ### End main program ###

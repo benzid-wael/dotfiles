@@ -2,7 +2,7 @@
 
 VIRTUALENV_DIR=~/virtualenvs
 
-sudo apt-get install python-setuptools python-dev build-essential git-core -y
+sudo apt-get install python-setuptools python-dev build-essential git-core libpq-dev -y
 
 sudo easy_install pip
 sudo pip install virtualenv
