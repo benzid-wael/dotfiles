@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-VERSION="0.0.0"
+VERSION="0.0.1"
 
 #Set Script Name variable
 SCRIPT=`basename ${BASH_SOURCE[0]}`
