@@ -13,7 +13,12 @@ All configuration files that have made my life much easier.
 * Installation and configuration of *nvm*
 * Installation and configuration of *pythonz*
 
-## Requiremenst
+
+## Prerequisites (install these first)
+
+* git
+* curl
+
 
 ## CLI
 
@@ -27,6 +32,25 @@ To see a full list of existion options, run the following command:
 ```bash
  $ ./dotfiles -h
 ```
+
+* Run the installation script.
+
+```bash
+$ ./dotfiles
+```
+
+## Install
+
+* [Fork](https://github.com/benzid-wael/dotfiles/fork) this repo.
+* Clone your fork.
+
+```bash
+# Replace git url with your fork
+# NOTE: It is important that you clone to ~/dotfiles
+$ git clone https://github.com/YOU/dotfiles.git ~/dotfiles
+$ cd ~/dotfiles
+```
+
 
 ## Predefined vim plugins
 
