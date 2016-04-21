@@ -11,7 +11,8 @@ chsh -s `which zsh`
 
 cat << EOF >> ~/.zshrc
 
-plugins=(git autopep8 bower colorize cp django docker history jira mercurial nvm npm virtualenvwrapper command-not-found jsontools python sud
-    o node fabric screen)
+plugins=(git autopep8 bower colorize cp django docker history jira mercurial nvm
+    npm virtualenvwrapper command-not-found jsontools python sudo node fabric screen)
+
 
 EOF
