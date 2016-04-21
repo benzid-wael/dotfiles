@@ -190,6 +190,14 @@ function install_pythonz() {
   ./install_pythonz.sh
 }
 
+function configure_shell() {
+  echo "Configuring shell ..."
+  echo -e "source ~/.dotfilesrc\n" >> ~/.bashrc
+  echo -e "source ~/.dotfilesrc\n" >> ~/.zshrc
+  source ~/.bashrc
+  source ~/.zshrc
+}
+
 if ! which zsh; then
   printf '%s\n\n' 'dotfiles: zsh not found!' >&2
   install_zsh
@@ -215,4 +223,7 @@ fi
 if [ "$NO_PYTHONZ" == false ]; then
   install_pythonz
 fi
+
+# configure shell: bash, zsh
+configure_shell
 ### End main program ###
