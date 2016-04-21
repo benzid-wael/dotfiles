@@ -17,7 +17,10 @@ All configuration files that have made my life much easier.
 
 ## CLI
 
-*dotfiles* helps you install and configure your development machine. By default, it'll install all supported feature. You can disable any feature by passing option *--no-<FEATURE>*. For example, if you don't want to install node you had to use *--no-node* option
+*dotfiles* helps you install and configure your development machine. By default,
+it'll install all supported feature. You can disable any feature by passing 
+option *--no-FEATURE*. For example, if you don't want to install node you had 
+to use *--no-node* option
 
 To see a full list of existion options, run the following command:
 
