@@ -33,14 +33,14 @@ cd /tmp
 # Clean
 rm install.sh
 
-wget https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
+sudo apt-get install curl
 
-source ~/.profile
+curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
 
 # Install node
 nvm install $NODE_VERSION
 
-cat << EOF >> ~/.profile
+cat << EOF >> ~/.dotfilesrc
 
 nvm use $NODE_VERSION
 EOF
@@ -48,5 +48,3 @@ EOF
 if [ "$GLOBAL" == true ]; then
   n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
 fi
-
-source ~/.profile

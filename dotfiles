@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-VERSION="0.0.0"
+VERSION="0.0.1"
 
 #Set Script Name variable
 SCRIPT=`basename ${BASH_SOURCE[0]}`
@@ -14,7 +14,7 @@ BOLD=`tput bold`
 REV=`tput smso`
 
 
-OPTS=`getopt -o Vhg --long version,help,global,no-git,git-name,git-email,no-vim,no-virtualenv,no-node -n 'parse-options' -- "$@"`
+OPTS=`getopt -o Vhg --long version,help,global,no-git,git-name,git-email,no-vim,no-virtualenv,no-node,no-pythonz -n 'parse-options' -- "$@"`
 
 eval set -- "$OPTS"
 
@@ -27,6 +27,7 @@ GIT_EMAIL=''
 NO_VIM=false
 NO_VIRTUALENV=false
 NO_NODE=false
+NO_PYTHONZ=false
 
 function print_version() {
   echo -e "$SCRIPT $VERSION"\\n
@@ -55,14 +56,17 @@ ${BOLD}OPTIONS:${NORM}
     Define ${REV}user.email${NORM} for git configuration.
 
   ${BOLD}--no-vim${NORM}
-    Do not configure vim.
+    Do not configure NeoVim.
 
   ${BOLD}--no-virtualenv${NORM}
     Do not install virtualenv.
 
+  ${BOLD}--no-pythonz${NORM}
+    Do not install pythonz.
+
   ${BOLD}--no-node${NORM}
     Do not install ${REV}Node.js${NORM}.
- 
+
 EOF
 exit 1
 }
@@ -93,6 +97,7 @@ while [ $# -gt 0 ]; do
     --git-email) GIT_EMAIL=$2; shift; ;;
     --no-virtualenv) NO_VIRTUALENV=true ;;
     --no-node) NO_NODE=true ;;
+    --no-pythonz) NO_PYTHONZ=true ;;
     \?) #unrecognized option - show help
       echo -e \\n"Option -${BOLD}$OPTARG${NORM} not recognized."
       echo -e "Use ${BOLD}$SCRIPT -h${NORM} to see the help documentation."\\n
@@ -157,15 +162,46 @@ function configure_vim() {
   copy_file vimrc ~/.vimrc
 }
 
+function configure_neovim() {
+  echo "Installing NeoVim ..."
+  ./install_nvim.sh
+  copy_file nvimrc  ~/.nvimrc
+}
+
 function install_virtualenv() {
   echo "Installing virtualenv..."
   ./install_virtualenv.sh
 }
 
 function install_node() {
-  echo "Installing Node.js with NVM..."
+  echo "Installing Node.js with nvm..."
   ./install_node.sh --node-version $NODE_VERSION -g $GLOBAL
 }
+
+function install_zsh() {
+  echo "Installing 'Oh MyZSH!'..."
+  ./install_zsh.sh
+  # echo "Time for reboot :)"
+  # sudo shutdown -r 0
+}
+
+function install_pythonz() {
+  echo "Installing pythonz..."
+  ./install_pythonz.sh
+}
+
+function configure_shell() {
+  echo "Configuring shell ..."
+  echo -e "source ~/.dotfilesrc\n" >> ~/.bashrc
+  echo -e "source ~/.dotfilesrc\n" >> ~/.zshrc
+  source ~/.bashrc
+  source ~/.zshrc
+}
+
+if ! which zsh; then
+  printf '%s\n\n' 'dotfiles: zsh not found!' >&2
+  install_zsh
+fi
 
 ### Start main program ###
 if [ "$NO_GIT" == false ]; then
@@ -173,7 +209,7 @@ if [ "$NO_GIT" == false ]; then
 fi
 
 if [ "$NO_VIM" == false ]; then
-  configure_vim
+  configure_neovim
 fi
 
 if [ "$NO_VIRTUALENV" == false ]; then
@@ -183,4 +219,11 @@ fi
 if [ "$NO_NODE" == false ]; then
   install_node
 fi
+
+if [ "$NO_PYTHONZ" == false ]; then
+  install_pythonz
+fi
+
+# configure shell: bash, zsh
+configure_shell
 ### End main program ###
