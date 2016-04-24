@@ -55,3 +55,7 @@ $ cd ~/dotfiles
 ## Predefined vim plugins
 
 TODO
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/benzid-wael/dotfiles/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
