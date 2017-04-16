@@ -35,7 +35,7 @@ rm install.sh
 
 sudo apt-get install curl
 
-curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
+curl https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
 
 # Install node
 nvm install $NODE_VERSION
